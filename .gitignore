@@ -1,0 +1,30 @@
+# Local caches and editor state
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+node_modules/
+.DS_Store
+.idea/
+.vscode/
+
+# Credentials and machine-local configuration
+.env
+.env.*
+!.env.example
+secrets/
+credentials/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Private research, logs, and local artifacts (never publish)
+research/local-skill-audit.md
+private/
+outbox/
+reports/
+*.log

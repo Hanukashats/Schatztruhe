@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Понимать работу агента — интерактивный пример</title>
+<style>
+:root{color-scheme:light;--ink:#16324b;--muted:#455e70;--paper:#f7fbff;--line:#b3c8d8;--blue:#075da7;--teal:#086456;--amber:#805000;--purple:#6540a3}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.65 system-ui,sans-serif}main,header,footer{max-width:1120px;margin:auto;padding:28px}header{padding-top:46px}h1{font-size:clamp(2.1rem,5vw,3.8rem);line-height:1.12;max-width:850px;margin:.4em 0}h2{font-size:1.7rem;line-height:1.25}h3{font-size:1.15rem}p,li{max-width:76ch}a{color:var(--blue);text-underline-offset:4px}nav{display:flex;flex-wrap:wrap;gap:12px 24px;margin:28px 0}section{padding:28px 0;border-top:1px solid var(--line)}.note{border-left:5px solid var(--amber);padding:12px 18px;background:#fff4d6}.tag{display:inline-block;border:1px solid currentColor;border-radius:4px;padding:2px 9px;font-size:.82rem;color:var(--purple)}.lead{font-size:1.25rem}.grid{display:grid;grid-template-columns:1.15fr 1fr;gap:32px}.model{background:white;border:1px solid var(--line);padding:22px;border-radius:8px}button,select,input{font:inherit}button{background:var(--blue);color:white;border:2px solid var(--blue);border-radius:6px;padding:9px 16px;cursor:pointer;min-height:44px}button.secondary{background:white;color:var(--blue)}:focus-visible{outline:3px solid var(--purple);outline-offset:4px}label{display:block;margin:14px 0 4px}input[type=range]{width:100%;accent-color:var(--blue);min-height:44px}output{font-weight:700}.result{font-size:1.25rem;color:var(--teal)}.controls[hidden]{display:none}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{padding:12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}th{background:#e6f0f9}details{border-bottom:1px solid var(--line);padding:14px 0}summary{cursor:pointer;font-weight:650;min-height:44px}svg{width:100%;height:auto;display:block}svg text{font-family:system-ui,sans-serif;fill:var(--ink)}.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.muted{color:var(--muted)}textarea{width:100%;min-height:160px;font:inherit;padding:12px;border:1px solid var(--line);color:var(--ink);background:white}footer{font-size:.9rem}code{overflow-wrap:anywhere}.evidence-link{font-size:.9rem}.diagram-text{font-size:.95rem}.flow-text{display:none}.flow-text div{border-left:4px solid var(--blue);background:#e6f0f9;padding:12px 18px}.flow-text p{padding-left:18px}@media(max-width:760px){.flow-wide{display:none}.flow-text{display:block}.grid{grid-template-columns:1fr}main,header,footer{padding:20px}h1{font-size:2.4rem}th,td{padding:8px}.model{padding:16px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}@media print{body{background:white;color:black;font-size:12pt}header,main,footer{max-width:none;padding:12px}nav,.controls,.draft{display:none!important}details>*{display:block!important}details::details-content{display:block!important;content-visibility:visible!important}section,.model{break-inside:avoid}a{color:black}h1{font-size:26pt}.grid{display:block}.tag{color:black}}
+</style>
+</head>
+<body>
+<header>
+<span class="tag">Учебный пример · все данные вымышлены</span>
+<h1>Что сделал агент — и что это действительно доказывает?</h1>
+<p class="lead">Локальная проверка прошла. Готовность рабочей системы ещё не подтверждена.</p>
+<p>Этот отчёт показывает, как отделить результат от предположения, понять ограничение и подготовить следующий вопрос агенту. Он не подключён к сервисам и ничего не запускает.</p>
+<nav aria-label="Разделы"><a href="#result">Короткий итог</a><a href="#mechanism">Понять механизм</a><a href="#evidence">Проверить основания</a><a href="#decision">Следующий шаг</a></nav>
+<div class="note"><strong>Главное ограничение.</strong> В примере проверили локальную копию, а не рабочую систему. Зелёный результат одного теста не подтверждает весь запуск.</div>
+</header>
+<main>
+<section id="result">
+<h2>Итог без технического журнала</h2>
+<div class="grid"><div>
+<h3>Что известно в этом сценарии</h3>
+<p>Агент подготовил изменение. Проверяющий открыл локальную страницу и получил ожидаемый ответ. Следующий необходимый результат — отдельная проверка рабочей системы.</p>
+<p><strong>Решение сейчас:</strong> запросить проверку, а не объявлять полную готовность.</p>
+<a class="evidence-link" href="#evidence">Посмотреть, что подтверждает каждое утверждение</a>
+</div><div class="model"><h3>Три разных состояния</h3>
+<ol><li><strong>Подготовлено:</strong> изменение существует.</li><li><strong>Локально проверено:</strong> известен результат в тестовой среде.</li><li><strong>В рабочей системе:</strong> пока неизвестно.</li></ol>
+<p class="muted">Это фиксированный учебный снимок, версия 1. Он не отображает живой прогресс агента.</p></div></div>
+</section>
+<section id="mechanism">
+<h2>Почему одно успешное испытание не закрывает весь вопрос</h2>
+<p>Схема показывает области проверки. Стрелка означает передачу изменения в другую среду, а не доказательство её исправности.</p>
+<div class="flow-text" aria-label="Последовательность областей проверки"><div><strong>Изменение</strong><br>подготовлено</div><p>↓ проверили локально</p><div><strong>Локальная копия</strong><br>тест пройден</div><p>↓ перенос требует новой проверки</p><div><strong>Рабочая система</strong><br>не проверена</div></div>
+<svg class="flow-wide" viewBox="0 0 900 210" role="img" aria-labelledby="flow-title flow-desc">
+<title id="flow-title">От изменения к двум разным областям проверки</title><desc id="flow-desc">Изменение проверено локально. После переноса в рабочую систему нужна отдельная проверка; её результат неизвестен.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#455e70"/></marker></defs>
+<rect x="12" y="65" width="218" height="100" rx="8" fill="#e6f0f9" stroke="#075da7"/><text x="121" y="105" text-anchor="middle" font-size="22">Изменение</text><text x="121" y="138" text-anchor="middle" font-size="18">подготовлено</text>
+<path d="M235 115H335" stroke="#455e70" stroke-width="2" marker-end="url(#arrow)"/><text x="285" y="48" text-anchor="middle" font-size="16">проверили</text>
+<rect x="345" y="65" width="218" height="100" rx="8" fill="#e4f5ef" stroke="#086456"/><text x="454" y="105" text-anchor="middle" font-size="22">Локальная копия</text><text x="454" y="138" text-anchor="middle" font-size="18">тест пройден</text>
+<path d="M568 115H668" stroke="#455e70" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow)"/><text x="618" y="48" text-anchor="middle" font-size="16">перенос</text>
+<rect x="678" y="65" width="210" height="100" rx="8" fill="#fff4d6" stroke="#805000"/><text x="783" y="105" text-anchor="middle" font-size="21">Рабочая система</text><text x="783" y="138" text-anchor="middle" font-size="18">не проверена</text>
+</svg>
+<p class="diagram-text"><strong>Текст схемы:</strong> подготовленное изменение → локальная проверка пройдена → перенос в другую среду требует новой проверки. Непроверенное состояние остаётся неизвестным.</p>
+<details><summary>Аналогия — и где она перестаёт работать</summary><p>Это похоже на проверку ключа в запасном замке: успех полезен, но не гарантирует, что откроется другая дверь. Соответствие: разные замки — разные среды. Граница аналогии: программные среды можно описывать конфигурацией и сравнивать воспроизводимыми тестами; реальный ключ этого не объясняет.</p><p><strong>Буквально:</strong> условия тестовой и рабочей среды могут различаться. Нужна проверка в той среде, о которой делается вывод.</p></details>
+</section>
+<section id="experiment">
+<h2>Попробуйте изменить одно условие</h2>
+<p><span class="tag">Упрощённая модель · не измерение системы</span></p>
+<p>Пусть тестовый набор содержит 12 проверок. Часть относится к рабочей среде. Ползунок меняет только число выполненных проверок; состав набора остаётся постоянным.</p>
+<div class="grid"><div class="model">
+<p><strong>Исходный пример без интерактивности:</strong> выполнено 4 из 12 проверок; осталось 8. Даже 12 из 12 означают только выполнение выбранного набора: результаты могут быть отрицательными. Это не подтверждает прохождение тестов или отсутствие всех возможных ошибок.</p>
+<div class="controls" hidden>
+<label for="checks">Выполненные проверки: <output id="checks-value" for="checks">4</output> из 12</label>
+<input id="checks" type="range" min="0" max="12" value="4" step="1" aria-describedby="model-limits">
+<label for="checks-number">Или введите целое число от 0 до 12</label><input id="checks-number" type="number" min="0" max="12" step="1" value="4" aria-describedby="model-limits number-error"><p id="number-error" role="status"></p>
+<button id="reset" type="button" class="secondary">Вернуть 4 проверки</button>
+</div>
+<p id="model-limits" class="muted">Все проверки здесь условно равнозначны. Модель не оценивает их качество, важность или полноту. Число не является процентом готовности проекта.</p>
+</div><div class="model">
+<h3>Результат выбранного сценария</h3>
+<div aria-live="polite" aria-atomic="true"><p class="result" id="model-result">Проверено 4 из 12. Осталось 8.</p><p id="model-meaning">Часть выбранных проверок ещё не выполнена. Общая готовность неизвестна.</p></div>
+<svg viewBox="0 0 480 110" role="img" aria-labelledby="bar-title bar-desc"><title id="bar-title">Число выполненных и оставшихся проверок</title><desc id="bar-desc">Выполнено 4, осталось 8 из 12 условных проверок.</desc><rect x="10" y="20" width="460" height="38" rx="4" fill="#e3e9ef"/><rect id="bar" x="10" y="20" width="153.333" height="38" rx="4" fill="#075da7"/><text id="bar-label" x="10" y="94" font-size="22">4 выполнено · 8 осталось</text></svg>
+</div></div>
+<details><summary>Необязательный вопрос на понимание</summary><p>Если ползунок показывает 12 из 12, можно ли обещать отсутствие ошибок?</p><details><summary>Посмотреть объяснение</summary><p>Нет. Можно сказать, что выполнен именно этот набор. Его полнота и качество — отдельные вопросы. Чтобы утверждать больше, нужны дополнительные основания.</p></details></details>
+</section>
+<section id="evidence">
+<h2>Основания и границы вывода</h2>
+<p>Таблица — вымышленные исходные данные сценария, а не свидетельства реального запуска.</p>
+<div class="table-wrap" role="region" aria-label="Учебная таблица оснований" tabindex="0"><table><thead><tr><th scope="col">Утверждение</th><th scope="col">Статус в сценарии</th><th scope="col">Основание</th><th scope="col">Чего не доказывает</th></tr></thead><tbody>
+<tr><td>Изменение подготовлено</td><td>Дано в примере</td><td>Вымышленная версия demo-1</td><td>Применение в рабочей системе</td></tr>
+<tr><td>Локальный тест пройден</td><td>Дано в примере</td><td>Условный ожидаемый ответ</td><td>Работу в другой среде</td></tr>
+<tr><td>Рабочая система исправна</td><td>Неизвестно</td><td>Проверка отсутствует</td><td>Нет основания объявлять успех</td></tr>
+<tr><td>Ползунок показывает готовность</td><td>Неверная интерпретация</td><td>Он считает только проверки</td><td>Полноту тестов и качество результата</td></tr>
+</tbody></table></div>
+</section>
+<section id="decision">
+<h2>Следующий шаг остаётся под вашим контролем</h2>
+<p>В сценарии разумно запросить проверку рабочей среды без изменения её состояния. Этот HTML не выполняет проверку и не отправляет команды. Решение передаётся агенту отдельно, через ваш обычный клиент.</p>
+<div class="note"><strong>Пример сообщения:</strong> «Проверь рабочую среду только на чтение. Покажи наблюдаемый результат, время проверки и ограничения. Не меняй настройки».</div>
+<div class="controls draft" hidden>
+<label for="question">Какой вопрос подготовить?</label><select id="question"><option value="verify">Проверить рабочую среду</option><option value="evidence">Показать основания вывода</option><option value="explain">Объяснить разницу сред</option></select>
+<label for="message">Черновик сообщения — можно выделить и скопировать</label><textarea id="message" readonly>Учебный пример demo-1, вымышленные данные; это запрос объяснения, не разрешение действий. Проверь рабочую среду только на чтение. Покажи наблюдаемый результат, время проверки и ограничения. Не меняй настройки.</textarea>
+<p class="muted">Выбор меняет только текст на этой странице. Сообщение не отправлено.</p>
+</div>
+</section>
+</main>
+<footer><p>Native Operator Interaction · открытый учебный пример. Нативные HTML, CSS, SVG и JavaScript; без библиотек, внешних шрифтов и телеметрии. Наличие этого примера не доказывает улучшения понимания у всех пользователей.</p></footer>
+<script>
+'use strict';
+const checks=document.getElementById('checks');
+function update(){const n=Number(checks.value),left=12-n;document.getElementById('checks-value').value=String(n);document.getElementById('model-result').textContent=`Проверено ${n} из 12. Осталось ${left}.`;document.getElementById('model-meaning').textContent=n===12?'Выбранный набор выполнен, но успешность результатов не указана. Полнота и качество также требуют отдельных оснований.':'Часть выбранных проверок ещё не выполнена. Общая готовность неизвестна.';document.getElementById('bar').setAttribute('width',String(460*n/12));document.getElementById('bar-label').textContent=`${n} выполнено · ${left} осталось`;document.getElementById('bar-desc').textContent=`Выполнено ${n}, осталось ${left} из 12 условных проверок.`;}
+const numberInput=document.getElementById('checks-number');
+checks.addEventListener('input',()=>{numberInput.value=checks.value;document.getElementById('number-error').textContent='';update();});numberInput.addEventListener('input',()=>{const n=numberInput.valueAsNumber;if(!Number.isInteger(n)||n<0||n>12){document.getElementById('number-error').textContent='Введите целое число от 0 до 12. Результат пока не изменён.';return;}document.getElementById('number-error').textContent='';checks.value=String(n);update();});document.getElementById('reset').addEventListener('click',()=>{checks.value='4';numberInput.value='4';document.getElementById('number-error').textContent='';update();});
+const messages={verify:'Проверь рабочую среду только на чтение. Покажи наблюдаемый результат, время проверки и ограничения. Не меняй настройки.',evidence:'Покажи основания вывода: что наблюдалось, в какой среде и когда. Отдели факт от предположения и укажи, что ещё неизвестно.',explain:'Объясни разницу между локальной и рабочей средой на небольшом примере. Покажи, почему результат одной проверки нельзя автоматически переносить на другую среду.'};
+document.getElementById('question').addEventListener('change',e=>{document.getElementById('message').value='Учебный пример demo-1, вымышленные данные; это запрос объяснения, не разрешение действий. '+messages[e.target.value];});
+document.querySelectorAll('.controls').forEach(e=>{e.hidden=false;});update();
+</script>
+</body></html>
