@@ -2,7 +2,7 @@
 
 **A treasure chest of tools for working with agents.**
 
-Schatztruhe is a collection of portable agent skills, examples, and supporting references. Start with one tool, inspect how it works, and copy only what you need. This initial collection contains **one featured skill**: Native Operator Interaction.
+Schatztruhe is a collection of portable agent skills, examples, and supporting references. Start with one tool, inspect how it works, and copy only what you need. This initial collection contains **one featured skill**: N-O-I — Native Operator Interaction.
 
 [Русский](README.ru.md) · [Install](docs/INSTALL.md) · [Research](docs/RESEARCH.md) · [Provenance](docs/PROVENANCE.md) · [Changelog](CHANGELOG.md) · [MIT license](LICENSE)
 
@@ -17,7 +17,7 @@ Schatztruhe is a collection of portable agent skills, examples, and supporting r
 | Outcome and limits | Native diagrams and optional controls | Sources, checks and unknowns |
 | Read first | Explore when useful | Verify before relying |
 
-## Featured tool: Native Operator Interaction
+## Featured tool: N-O-I — Native Operator Interaction
 
 Understand what an agent did, what the evidence supports, and what to do next. This skill guides answer-first explanations, small causal diagrams, bounded analogies, and optional offline HTML reports. It leaves operational authority with the user and their client.
 
